@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Cocktails</string>
+    <string name="title_cocktails">Cocktails</string>
+    <string name="title_ingredients">Ingredients</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_random">Random</string>
+    <string name="cocktail_image">Cocktail image</string>
+    <string name="ingredient_image">Ingredient image</string>
+    <string name="title_search_by_name">Search by name</string>
+    <string name="title_filter">Filter</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="recipe">Recipe</string>
+    <string name="glass">"glass: %1$s"</string>
+    <string name="type">"type: %1$s"</string>
+    <string name="category">"category: %1$s"</string>
+    <string name="favorite_cocktail">Favorite cocktail</string>
+    <string name="msg_removed_to_favorites">Removed from favorites</string>
+    <string name="msg_added_to_favorites">Added to favorites</string>
+    <string name="description">Description</string>
+    <string name="cocktails_with">Cocktails with %1$s</string>
+    <string name="no_description">No description</string>
+    <string name="undefined">Undefined</string>
+    <string name="msg_connection_unavailable">Connection is unavailable!</string>
+</resources>

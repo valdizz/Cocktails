@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/iv_ingredient_detail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_large_size"
+                android:paddingTop="@dimen/small_interval"
+                tools:srcCompat="@tools:sample/avatars"
+                android:contentDescription="@string/ingredient_image"/>
+
+        <ProgressBar
+                android:id="@+id/progress_detail_ingredient"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="center"/>
+
+        <TextView
+                android:id="@+id/tv_ingredient_name"
+                tools:text="Elderflower cordial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="@dimen/middle_interval"
+                android:paddingEnd="@dimen/middle_interval"
+                android:paddingTop="@dimen/small_interval"
+                android:paddingBottom="@dimen/small_interval"
+                android:textStyle="bold|italic"
+                android:textSize="@dimen/large_text_size"/>
+
+        <View
+                style="@style/Divider"
+                android:layout_marginStart="@dimen/middle_interval"
+                android:layout_marginEnd="@dimen/middle_interval"/>
+
+        <TextView
+                android:id="@+id/tv_ingredient_type"
+                tools:text="type: Cordial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/small_interval"
+                android:paddingStart="@dimen/large_interval"
+                android:paddingBottom="@dimen/small_interval"
+                android:paddingEnd="@dimen/middle_interval"/>
+
+        <View
+                style="@style/Divider"
+                android:layout_marginStart="@dimen/middle_interval"
+                android:layout_marginEnd="@dimen/middle_interval"/>
+
+        <TextView
+                android:text="@string/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/middle_interval"
+                android:paddingEnd="@dimen/middle_interval"
+                android:paddingTop="@dimen/middle_interval"
+                android:paddingBottom="@dimen/small_interval"
+                android:textSize="@dimen/middle_text_size"/>
+
+        <TextView
+                android:id="@+id/tv_ingredient_description"
+                tools:text="Elderflower cordial is a soft drink made largely from a refined sugar and water solution and uses the flowers of the European elderberry. Historically the cordial has been popular in North Western Europe where it has a strong Victorian heritage."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/large_interval"
+                android:paddingEnd="@dimen/middle_interval"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_show_cocktails"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/middle_interval"
+                android:text="@string/cocktails_with"/>
+    </LinearLayout>
+</ScrollView>
