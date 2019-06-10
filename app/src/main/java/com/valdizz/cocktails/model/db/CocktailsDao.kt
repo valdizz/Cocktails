@@ -40,12 +40,6 @@ abstract class CocktailsDao {
     @Query("SELECT * FROM Cocktail WHERE type = :type")
     abstract fun filterCocktailByType(type: String): LiveData<List<Cocktail>>
 
-    @Query("SELECT * FROM Cocktail WHERE category = :category")
-    abstract fun filterCocktailByCategory(category: String): LiveData<List<Cocktail>>
-
-    @Query("SELECT * FROM Cocktail WHERE glass = :glass")
-    abstract fun filterCocktailByGlass(glass: String): LiveData<List<Cocktail>>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertIngredients(ingredients: List<Ingredient>)
 
@@ -54,24 +48,6 @@ abstract class CocktailsDao {
 
     @Query("SELECT * FROM Ingredient")
     abstract fun loadIngredients(): LiveData<List<Ingredient>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertCategories(categories: List<Category>)
-
-    @Query("SELECT * FROM Category")
-    abstract fun loadCategories(): LiveData<List<Category>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertTypes(types: List<Type>)
-
-    @Query("SELECT * FROM Type")
-    abstract fun loadTypes(): LiveData<List<Type>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertGlasses(types: List<Glass>)
-
-    @Query("SELECT * FROM Glass")
-    abstract fun loadGlasses(): LiveData<List<Glass>>
 
     @Query("SELECT * FROM Cocktail ORDER BY RANDOM() LIMIT 1")
     abstract fun loadRandomCocktail(): LiveData<Cocktail>

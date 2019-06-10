@@ -7,7 +7,10 @@ import com.valdizz.cocktails.common.RateLimiter
 import com.valdizz.cocktails.model.api.ApiResponse
 import com.valdizz.cocktails.model.api.CocktailsApiService
 import com.valdizz.cocktails.model.db.CocktailsDao
-import com.valdizz.cocktails.model.entity.*
+import com.valdizz.cocktails.model.entity.Cocktail
+import com.valdizz.cocktails.model.entity.Cocktails
+import com.valdizz.cocktails.model.entity.Ingredient
+import com.valdizz.cocktails.model.entity.Ingredients
 
 class CocktailsRepository(
     val appExecutors: AppExecutors,
@@ -72,7 +75,11 @@ class CocktailsRepository(
     override fun filterCocktailByType(type: String): LiveData<Resource<List<Cocktail>>> {
         return object : NetworkBoundResource<List<Cocktail>, Cocktails>(appExecutors) {
             override fun saveCallResult(item: Cocktails) {
-                cocktailsDao.insertCocktails(item.drinks)
+                val drinks = mutableListOf<Cocktail>()
+                for (drink in item.drinks) {
+                    drinks.add(drink.copy(type = type))
+                }
+                cocktailsDao.insertCocktails(drinks)
             }
 
             override fun shouldFetch(data: List<Cocktail>?): Boolean {
@@ -82,40 +89,6 @@ class CocktailsRepository(
             override fun loadFromDb(): LiveData<List<Cocktail>> = cocktailsDao.filterCocktailByType(type)
 
             override fun createCall(): LiveData<ApiResponse<Cocktails>> = cocktailsApiService.filterCocktailByType(type)
-        }.asLiveData()
-    }
-
-    override fun filterCocktailByCategory(category: String): LiveData<Resource<List<Cocktail>>> {
-        return object : NetworkBoundResource<List<Cocktail>, Cocktails>(appExecutors) {
-            override fun saveCallResult(item: Cocktails) {
-                cocktailsDao.insertCocktails(item.drinks)
-            }
-
-            override fun shouldFetch(data: List<Cocktail>?): Boolean {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(category)
-            }
-
-            override fun loadFromDb(): LiveData<List<Cocktail>> = cocktailsDao.filterCocktailByCategory(category)
-
-            override fun createCall(): LiveData<ApiResponse<Cocktails>> =
-                cocktailsApiService.filterCocktailByCategory(category)
-        }.asLiveData()
-    }
-
-    override fun filterCocktailByGlass(glass: String): LiveData<Resource<List<Cocktail>>> {
-        return object : NetworkBoundResource<List<Cocktail>, Cocktails>(appExecutors) {
-            override fun saveCallResult(item: Cocktails) {
-                cocktailsDao.insertCocktails(item.drinks)
-            }
-
-            override fun shouldFetch(data: List<Cocktail>?): Boolean {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(glass)
-            }
-
-            override fun loadFromDb(): LiveData<List<Cocktail>> = cocktailsDao.filterCocktailByGlass(glass)
-
-            override fun createCall(): LiveData<ApiResponse<Cocktails>> =
-                cocktailsApiService.filterCocktailByGlass(glass)
         }.asLiveData()
     }
 
@@ -155,54 +128,6 @@ class CocktailsRepository(
             override fun loadFromDb(): LiveData<List<Ingredient>> = cocktailsDao.loadIngredients()
 
             override fun createCall(): LiveData<ApiResponse<Ingredients>> = cocktailsApiService.getIngredients()
-        }.asLiveData()
-    }
-
-    override fun getCategories(): LiveData<Resource<List<Category>>> {
-        return object : NetworkBoundResource<List<Category>, Categories>(appExecutors) {
-            override fun saveCallResult(item: Categories) {
-                cocktailsDao.insertCategories(item.categories)
-            }
-
-            override fun shouldFetch(data: List<Category>?): Boolean {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch("categories")
-            }
-
-            override fun loadFromDb(): LiveData<List<Category>> = cocktailsDao.loadCategories()
-
-            override fun createCall(): LiveData<ApiResponse<Categories>> = cocktailsApiService.getCategories()
-        }.asLiveData()
-    }
-
-    override fun getGlasses(): LiveData<Resource<List<Glass>>> {
-        return object : NetworkBoundResource<List<Glass>, Glasses>(appExecutors) {
-            override fun saveCallResult(item: Glasses) {
-                cocktailsDao.insertGlasses(item.glasses)
-            }
-
-            override fun shouldFetch(data: List<Glass>?): Boolean {
-                return data == null || data.isEmpty()|| repoListRateLimit.shouldFetch("glasses")
-            }
-
-            override fun loadFromDb(): LiveData<List<Glass>> = cocktailsDao.loadGlasses()
-
-            override fun createCall(): LiveData<ApiResponse<Glasses>> = cocktailsApiService.getGlasses()
-        }.asLiveData()
-    }
-
-    override fun getAlcoholicFilters(): LiveData<Resource<List<Type>>> {
-        return object : NetworkBoundResource<List<Type>, Types>(appExecutors) {
-            override fun saveCallResult(item: Types) {
-                cocktailsDao.insertTypes(item.types)
-            }
-
-            override fun shouldFetch(data: List<Type>?): Boolean {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch("type")
-            }
-
-            override fun loadFromDb(): LiveData<List<Type>> = cocktailsDao.loadTypes()
-
-            override fun createCall(): LiveData<ApiResponse<Types>> = cocktailsApiService.getTypes()
         }.asLiveData()
     }
 

@@ -13,7 +13,8 @@ import com.valdizz.cocktails.ui.ingredients.IngredientsFragment
 class CocktailsActivity : AppCompatActivity() {
 
     companion object {
-        const val COCKTAILS_TAG = "cocktails"
+        const val SEARCH_COCKTAILS_TAG = "search_cocktails"
+        const val FILTER_COCKTAILS_TAG = "filter_cocktails"
         const val INGREDIENTS_TAG = "ingredients"
         const val FAVORITES_TAG = "favorites"
         const val RANDOM_COCKTAIL_TAG = "random_cocktail"
@@ -34,7 +35,7 @@ class CocktailsActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_cocktails -> {
-                loadFragment(CocktailsFragment.newInstance(null), COCKTAILS_TAG)
+                loadFragment(CocktailsFragment.newInstance(null), FILTER_COCKTAILS_TAG)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_ingredients -> {

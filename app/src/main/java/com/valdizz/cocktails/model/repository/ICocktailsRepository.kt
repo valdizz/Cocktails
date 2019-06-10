@@ -13,19 +13,9 @@ interface ICocktailsRepository {
 
     fun filterCocktailByType(type: String): LiveData<Resource<List<Cocktail>>>
 
-    fun filterCocktailByCategory(category: String): LiveData<Resource<List<Cocktail>>>
-
-    fun filterCocktailByGlass(glass: String): LiveData<Resource<List<Cocktail>>>
-
     fun searchIngredientByName(name: String): LiveData<Resource<List<Ingredient>>>
 
     fun getIngredients(): LiveData<Resource<List<Ingredient>>>
-
-    fun getCategories(): LiveData<Resource<List<Category>>>
-
-    fun getGlasses(): LiveData<Resource<List<Glass>>>
-
-    fun getAlcoholicFilters(): LiveData<Resource<List<Type>>>
 
     fun randomCocktail(): LiveData<Resource<Cocktail>>
 
