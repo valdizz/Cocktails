@@ -62,7 +62,8 @@ class CocktailDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.getInt(COCKTAIL_ARGS)?.let {
             if (activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.tag !=
-                CocktailsActivity.RANDOM_COCKTAIL_TAG) {
+                CocktailsActivity.RANDOM_COCKTAIL_TAG
+            ) {
                 cocktailId = it
             }
             initCocktailObserver(cocktailId)
@@ -106,10 +107,35 @@ class CocktailDetailFragment : Fragment() {
             .apply(RequestOptions.bitmapTransform(RoundedCorners(100)))
             .into(iv_cocktail_detail)
         tv_cocktail_name.text = cocktail.drink
-        tv_cocktail_type.text = getString(R.string.type, cocktail.type)
-        tv_cocktail_category.text = getString(R.string.category, cocktail.category)
-        tv_cocktail_glass.text = getString(R.string.glass, cocktail.glass)
-        tv_cocktail_recipe.text = cocktail.instructions
+        tv_cocktail_type.text = getString(
+            R.string.type,
+            if (cocktail.type.isNullOrEmpty()) {
+                getString(R.string.undefined)
+            } else {
+                cocktail.type
+            }
+        )
+        tv_cocktail_category.text = getString(
+            R.string.category,
+            if (cocktail.category.isNullOrEmpty()) {
+                getString(R.string.undefined)
+            } else {
+                cocktail.category
+            }
+        )
+        tv_cocktail_glass.text = getString(
+            R.string.glass,
+            if (cocktail.glass.isNullOrEmpty()) {
+                getString(R.string.undefined)
+            } else {
+                cocktail.glass
+            }
+        )
+        tv_cocktail_recipe.text = if (cocktail.instructions.isNullOrEmpty()) {
+            ""
+        } else {
+            cocktail.instructions
+        }
         iv_cocktail_favorite.apply {
             if (cocktail.isFavorite) {
                 tag = true
@@ -119,6 +145,10 @@ class CocktailDetailFragment : Fragment() {
                 setImageResource(R.drawable.ic_star_border_orange_24dp)
             }
         }
+        showIngredients(cocktail)
+    }
+
+    private fun showIngredients(cocktail: Cocktail) {
         if (!cocktail.ingredient1.isNullOrEmpty() && !cocktail.measure1.isNullOrEmpty()) {
             createIngredientLine(ll_main, cocktail.ingredient1, cocktail.measure1)
         }

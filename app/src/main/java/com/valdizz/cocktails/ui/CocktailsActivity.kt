@@ -4,13 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.valdizz.cocktails.*
+import com.google.android.material.snackbar.Snackbar
+import com.valdizz.cocktails.R
 import com.valdizz.cocktails.ui.cocktaildetail.CocktailDetailFragment
 import com.valdizz.cocktails.ui.cocktails.CocktailsFragment
 import com.valdizz.cocktails.ui.ingredients.IngredientsFragment
-import kotlinx.android.synthetic.main.activity_cocktails.*
+import com.valdizz.cocktails.ui.network.NetworkConnectionViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * [CocktailsActivity] has a fragment container and [BottomNavigationView].
@@ -28,15 +30,30 @@ class CocktailsActivity : AppCompatActivity() {
         const val COCKTAILS_BY_INGREDIENTS_TAG = "cocktails_by_ingredients"
     }
 
+    private val networkConnectionViewModel: NetworkConnectionViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cocktails)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val connectionMessage =
+            Snackbar.make(navView, getString(R.string.msg_connection_unavailable), Snackbar.LENGTH_LONG)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         if (savedInstanceState == null) {
             navView.selectedItemId = R.id.navigation_cocktails
         }
+        initConnectionObserver(connectionMessage)
+    }
+
+    private fun initConnectionObserver(connectionMessage: Snackbar) {
+        networkConnectionViewModel.getConnection().observe(this, Observer { isConnected ->
+            if (isConnected) {
+                connectionMessage.dismiss()
+            } else {
+                connectionMessage.show()
+            }
+        })
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

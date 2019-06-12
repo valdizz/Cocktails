@@ -3,13 +3,14 @@ package com.valdizz.cocktails.di
 import androidx.room.Room
 import com.valdizz.cocktails.common.AppExecutors
 import com.valdizz.cocktails.common.Constants
-import com.valdizz.cocktails.common.NetworkConnectionManager
+import com.valdizz.cocktails.ui.network.NetworkConnectionLiveData
 import com.valdizz.cocktails.common.RateLimiter
 import com.valdizz.cocktails.model.api.CocktailsApiService
 import com.valdizz.cocktails.model.api.LiveDataCallAdapterFactory
 import com.valdizz.cocktails.model.db.CocktailsDb
 import com.valdizz.cocktails.model.repository.CocktailsRepository
 import com.valdizz.cocktails.model.repository.ICocktailsRepository
+import com.valdizz.cocktails.ui.network.NetworkConnectionViewModel
 import com.valdizz.cocktails.ui.cocktaildetail.CocktailDetailViewModel
 import com.valdizz.cocktails.ui.cocktails.CocktailsViewModel
 import com.valdizz.cocktails.ui.ingredientdetail.IngredientDetailViewModel
@@ -28,27 +29,21 @@ import java.util.concurrent.TimeUnit
  */
 val cocktailsModule = module {
 
-    viewModel { CocktailsViewModel(get(), get()) }
+    viewModel { CocktailsViewModel(get()) }
     viewModel { CocktailDetailViewModel(get()) }
     viewModel { IngredientsViewModel(get()) }
     viewModel { IngredientDetailViewModel(get()) }
-
+    viewModel { NetworkConnectionViewModel(androidApplication()) }
     single<ICocktailsRepository> { CocktailsRepository(get(), get(), get(), get()) }
-
     single { AppExecutors() }
-
     single { RateLimiter<String>(Constants.UPDATE_PERIOD, TimeUnit.MINUTES) }
-
-    single { NetworkConnectionManager(androidApplication()) }
-
+    single { NetworkConnectionLiveData(androidApplication()) }
     single {
         Room.databaseBuilder(androidApplication(), CocktailsDb::class.java, "cocktails.db")
         .fallbackToDestructiveMigration()
         .build()
     }
-
     single { get<CocktailsDb>().cocktailsDao() }
-
     single { createWebService<CocktailsApiService>(Constants.BASE_URL) }
 }
 

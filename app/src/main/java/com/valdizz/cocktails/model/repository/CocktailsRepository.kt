@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.valdizz.cocktails.common.AppExecutors
 import com.valdizz.cocktails.common.RateLimiter
+import com.valdizz.cocktails.common.ingredientNameCapitalize
 import com.valdizz.cocktails.model.api.ApiResponse
 import com.valdizz.cocktails.model.api.CocktailsApiService
 import com.valdizz.cocktails.model.db.CocktailsDao
@@ -98,7 +99,7 @@ class CocktailsRepository(
     override fun searchIngredientByName(name: String): LiveData<Resource<List<Ingredient>>> {
         return object : NetworkBoundResource<List<Ingredient>, Ingredients>(appExecutors) {
             override fun saveCallResult(item: Ingredients) {
-                cocktailsDao.insertIngredients(item.ingredients)
+                cocktailsDao.insertIngredients(item.ingredients.ingredientNameCapitalize())
             }
 
             override fun shouldFetch(data: List<Ingredient>?): Boolean {
@@ -121,7 +122,7 @@ class CocktailsRepository(
     override fun getIngredients(): LiveData<Resource<List<Ingredient>>> {
         return object : NetworkBoundResource<List<Ingredient>, Ingredients>(appExecutors) {
             override fun saveCallResult(item: Ingredients) {
-                cocktailsDao.insertIngredients(item.ingredients)
+                cocktailsDao.insertIngredients(item.ingredients.ingredientNameCapitalize())
             }
 
             override fun shouldFetch(data: List<Ingredient>?): Boolean {

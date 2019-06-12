@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.valdizz.cocktails.common.Constants.TYPE_ALCOHOLIC
-import com.valdizz.cocktails.common.NetworkConnectionManager
 import com.valdizz.cocktails.model.entity.Cocktail
 import com.valdizz.cocktails.model.repository.ICocktailsRepository
 import com.valdizz.cocktails.model.repository.Resource
@@ -16,10 +15,7 @@ import com.valdizz.cocktails.ui.CocktailsActivity
  *
  * @author Vlad Kornev
  */
-class CocktailsViewModel(
-    private val repository: ICocktailsRepository,
-    private val connectionManager: NetworkConnectionManager
-) : ViewModel() {
+class CocktailsViewModel(private val repository: ICocktailsRepository) : ViewModel() {
 
     private var typeAndValue = MutableLiveData<Pair<String, String>>()
     val isConnected = MutableLiveData<Boolean>()
@@ -37,11 +33,6 @@ class CocktailsViewModel(
     }
 
     fun loadCocktails(typeValue: Pair<String, String>) {
-        checkConnection()
         typeAndValue.value = typeValue
-    }
-
-    private fun checkConnection() {
-        isConnected.value = connectionManager.isConnected
     }
 }
