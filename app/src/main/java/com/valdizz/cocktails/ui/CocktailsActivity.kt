@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.valdizz.cocktails.*
 import com.valdizz.cocktails.ui.cocktaildetail.CocktailDetailFragment
 import com.valdizz.cocktails.ui.cocktails.CocktailsFragment
 import com.valdizz.cocktails.ui.ingredients.IngredientsFragment
+import kotlinx.android.synthetic.main.activity_cocktails.*
 
 class CocktailsActivity : AppCompatActivity() {
 
@@ -58,6 +60,7 @@ class CocktailsActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.animator.scalexy_enter, R.animator.scalexy_exit)
             .replace(R.id.fragment_container, fragment, tag)
             .commit()
     }

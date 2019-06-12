@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
@@ -80,8 +81,9 @@ class IngredientDetailFragment : Fragment() {
         navView?.selectedItemId = R.id.navigation_cocktails
 
         activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                CocktailsFragment.newInstance(ingredientName),
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.setCustomAnimations(R.animator.scalexy_enter, R.animator.scalexy_exit)
+            ?.replace(R.id.fragment_container, CocktailsFragment.newInstance(ingredientName),
                 COCKTAILS_BY_INGREDIENTS_TAG)?.commit()
     }
 }

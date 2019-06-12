@@ -54,11 +54,10 @@ class CocktailsRepository(
     override fun searchCocktailByIngredient(ingredient: String): LiveData<Resource<List<Cocktail>>> {
         return object : NetworkBoundResource<List<Cocktail>, Cocktails>(appExecutors) {
             override fun saveCallResult(item: Cocktails) {
-                val drinks = mutableListOf<Cocktail>()
+                cocktailsDao.insertCocktailsIfNotExist(item.drinks)
                 for (drink in item.drinks) {
-                    drinks.add(drink.copy(ingredient1 = ingredient))
+                    cocktailsDao.updateCocktailIngredient(drink.id, ingredient)
                 }
-                cocktailsDao.insertCocktails(drinks)
             }
 
             override fun shouldFetch(data: List<Cocktail>?): Boolean {
@@ -75,11 +74,10 @@ class CocktailsRepository(
     override fun filterCocktailByType(type: String): LiveData<Resource<List<Cocktail>>> {
         return object : NetworkBoundResource<List<Cocktail>, Cocktails>(appExecutors) {
             override fun saveCallResult(item: Cocktails) {
-                val drinks = mutableListOf<Cocktail>()
+                cocktailsDao.insertCocktailsIfNotExist(item.drinks)
                 for (drink in item.drinks) {
-                    drinks.add(drink.copy(type = type))
+                    cocktailsDao.updateCocktailType(drink.id, type)
                 }
-                cocktailsDao.insertCocktails(drinks)
             }
 
             override fun shouldFetch(data: List<Cocktail>?): Boolean {

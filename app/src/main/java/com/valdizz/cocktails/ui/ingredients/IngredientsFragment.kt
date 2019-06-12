@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,8 +72,10 @@ class IngredientsFragment : Fragment() {
     private val ingredientClickListener: IngredientClickListener = object :
         IngredientClickListener {
         override fun onClick(ingredientName: String) {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                IngredientDetailFragment.newInstance(ingredientName))?.addToBackStack(null)?.commit()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.animator.scalexy_enter, R.animator.scalexy_exit)
+                ?.replace(R.id.fragment_container, IngredientDetailFragment.newInstance(ingredientName))
+                ?.addToBackStack(null)?.commit()
         }
     }
 

@@ -11,10 +11,16 @@ import com.valdizz.cocktails.model.entity.*
 abstract class CocktailsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertCocktail(cocktail: Cocktail)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertCocktails(cocktails: List<Cocktail>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertCocktailsIfNotExist(cocktails: List<Cocktail>)
+
+    @Query("UPDATE Cocktail SET ingredient1 = :ingredient1 WHERE id = :cocktailId")
+    abstract fun updateCocktailIngredient(cocktailId: Int, ingredient1: String)
+
+    @Query("UPDATE Cocktail SET type = :type WHERE id = :cocktailId")
+    abstract fun updateCocktailType(cocktailId: Int, type: String)
 
     @Query("SELECT * FROM Cocktail")
     abstract fun loadCocktails(): LiveData<List<Cocktail>>

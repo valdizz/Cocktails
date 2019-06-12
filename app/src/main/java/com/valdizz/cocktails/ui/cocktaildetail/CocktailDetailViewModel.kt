@@ -8,25 +8,20 @@ import com.valdizz.cocktails.model.entity.Cocktail
 import com.valdizz.cocktails.model.repository.ICocktailsRepository
 import com.valdizz.cocktails.model.repository.Resource
 
-class CocktailDetailViewModel(val repository: ICocktailsRepository) : ViewModel() {
+class CocktailDetailViewModel(private val repository: ICocktailsRepository) : ViewModel() {
 
     private var cocktailId = MutableLiveData<Int>()
-    private var randomCocktailId = MutableLiveData<Int>()
 
     val cocktail: LiveData<Resource<Cocktail>> = Transformations.switchMap(cocktailId) { id ->
-        repository.searchCocktailById(id)
-    }
-
-    val randomCocktail: LiveData<Resource<Cocktail>> = Transformations.switchMap(randomCocktailId) { id ->
-        repository.randomCocktail()
+        if (id > 0) {
+            repository.searchCocktailById(id)
+        } else {
+            repository.randomCocktail()
+        }
     }
 
     fun loadCocktail(id: Int) {
         cocktailId.value = id
-    }
-
-    fun loadRandomCocktail(id: Int) {
-        randomCocktailId.value = id
     }
 
     fun setFavoriteCocktail(cocktailId: Int) {

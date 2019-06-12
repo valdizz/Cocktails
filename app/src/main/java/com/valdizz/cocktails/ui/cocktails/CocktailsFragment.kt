@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -114,6 +116,7 @@ class CocktailsFragment : Fragment() {
         CocktailClickListener {
         override fun onClick(cocktailId: Int) {
             activity?.supportFragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.animator.scalexy_enter, R.animator.scalexy_exit)
                 ?.replace(R.id.fragment_container, CocktailDetailFragment.newInstance(cocktailId))
                 ?.addToBackStack(null)?.commit()
         }

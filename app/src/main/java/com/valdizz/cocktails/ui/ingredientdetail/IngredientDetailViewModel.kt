@@ -8,7 +8,7 @@ import com.valdizz.cocktails.model.entity.Ingredient
 import com.valdizz.cocktails.model.repository.ICocktailsRepository
 import com.valdizz.cocktails.model.repository.Resource
 
-class IngredientDetailViewModel(val repository: ICocktailsRepository) : ViewModel() {
+class IngredientDetailViewModel(private val repository: ICocktailsRepository) : ViewModel() {
 
     private var ingredientName = MutableLiveData<String>()
 

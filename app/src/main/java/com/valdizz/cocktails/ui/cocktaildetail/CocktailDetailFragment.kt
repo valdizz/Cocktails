@@ -32,6 +32,7 @@ class CocktailDetailFragment : Fragment() {
 
     companion object {
         private const val COCKTAIL_ARGS = "cocktail_details"
+        private const val COCKTAIL_ID = "cocktail_id"
 
         fun newInstance(cocktailId: Int) = CocktailDetailFragment().apply {
             arguments = bundleOf(COCKTAIL_ARGS to cocktailId)
@@ -44,7 +45,9 @@ class CocktailDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
+        if (savedInstanceState != null) {
+            cocktailId = savedInstanceState.getInt(COCKTAIL_ID, 0)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,13 +56,11 @@ class CocktailDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.getInt(COCKTAIL_ARGS)?.let {
-            if (activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.tag ==
+            if (activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.tag !=
                 CocktailsActivity.RANDOM_COCKTAIL_TAG) {
-                initRandomCocktailObserver()
-            } else {
                 cocktailId = it
-                initCocktailObserver(it)
             }
+            initCocktailObserver(cocktailId)
         }
 
         iv_cocktail_favorite.setOnClickListener {
@@ -75,6 +76,11 @@ class CocktailDetailFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(COCKTAIL_ID, cocktailId)
+    }
+
     private fun initCocktailObserver(id: Int) {
         cocktailDetailViewModel.loadCocktail(id)
         cocktailDetailViewModel.cocktail.observe(viewLifecycleOwner, Observer { cocktail ->
@@ -85,20 +91,10 @@ class CocktailDetailFragment : Fragment() {
         })
     }
 
-    private fun initRandomCocktailObserver() {
-        cocktailDetailViewModel.loadRandomCocktail(0)
-        cocktailDetailViewModel.randomCocktail.observe(viewLifecycleOwner, Observer { cocktail ->
-            progress_detail_cocktail.isVisible = cocktail.status == Status.LOADING
-            cocktail.data?.let {
-                showCocktail(it)
-            }
-        })
-    }
-
     private fun showCocktail(cocktail: Cocktail) {
         cocktailId = cocktail.id
         Glide
-            .with(view?.context!!)
+            .with(this)
             .load(cocktail.image)
             .placeholder(R.drawable.ic_cocktail)
             .transition(withCrossFade(drawableCrossFadeFactory))
