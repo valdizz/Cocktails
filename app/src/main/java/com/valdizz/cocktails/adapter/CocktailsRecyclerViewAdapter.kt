@@ -1,6 +1,5 @@
 package com.valdizz.cocktails.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,11 @@ import com.valdizz.cocktails.model.entity.Cocktail
 import com.valdizz.cocktails.ui.cocktails.CocktailClickListener
 import kotlinx.android.synthetic.main.item_cocktail.view.*
 
+/**
+ * Adapter class for displaying cocktails in [RecyclerView].
+ *
+ * @author Vlad Kornev
+ */
 class CocktailsRecyclerViewAdapter(private val cocktailClickListener: CocktailClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

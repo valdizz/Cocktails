@@ -7,6 +7,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.valdizz.cocktails.model.entity.*
 
+/**
+ * Room DAO class.
+ *
+ * @author Vlad Kornev
+ */
 @Dao
 abstract class CocktailsDao {
 

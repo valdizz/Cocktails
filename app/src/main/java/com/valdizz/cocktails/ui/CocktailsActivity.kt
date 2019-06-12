@@ -12,6 +12,11 @@ import com.valdizz.cocktails.ui.cocktails.CocktailsFragment
 import com.valdizz.cocktails.ui.ingredients.IngredientsFragment
 import kotlinx.android.synthetic.main.activity_cocktails.*
 
+/**
+ * [CocktailsActivity] has a fragment container and [BottomNavigationView].
+ *
+ * @author Vlad Kornev
+ */
 class CocktailsActivity : AppCompatActivity() {
 
     companion object {

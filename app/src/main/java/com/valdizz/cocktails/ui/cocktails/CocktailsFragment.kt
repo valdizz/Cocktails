@@ -26,6 +26,11 @@ import com.valdizz.cocktails.ui.cocktaildetail.CocktailDetailFragment
 import kotlinx.android.synthetic.main.fragment_cocktails.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+/**
+ * [CocktailsFragment] displays a list of cocktails.
+ *
+ * @author Vlad Kornev
+ */
 class CocktailsFragment : Fragment() {
 
     companion object {

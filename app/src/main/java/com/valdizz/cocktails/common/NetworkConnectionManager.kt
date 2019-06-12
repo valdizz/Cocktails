@@ -6,6 +6,11 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 
+/**
+ * Class controlling the availability of Internet connection.
+ *
+ * @author Vlad Kornev
+ */
 class NetworkConnectionManager(context: Context) {
 
     private val connManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

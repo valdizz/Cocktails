@@ -4,6 +4,11 @@ import androidx.room.Entity
 import androidx.room.Index
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Cocktail data class.
+ *
+ * @author Vlad Kornev
+ */
 @Entity(
     indices = [Index("id"), Index("drink")],
     primaryKeys = ["id", "drink"]

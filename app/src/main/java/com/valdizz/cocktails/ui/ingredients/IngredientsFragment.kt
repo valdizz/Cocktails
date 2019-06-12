@@ -16,6 +16,11 @@ import com.valdizz.cocktails.ui.ingredientdetail.IngredientDetailFragment
 import kotlinx.android.synthetic.main.fragment_ingredients.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+/**
+ * [IngredientsFragment] displays a list of ingredients.
+ *
+ * @author Vlad Kornev
+ */
 class IngredientsFragment : Fragment() {
 
     companion object {

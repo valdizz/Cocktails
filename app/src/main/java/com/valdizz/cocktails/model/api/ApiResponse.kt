@@ -5,8 +5,10 @@ import retrofit2.Response
 
 /**
  * Common class used by API responses.
- * @param <T> the type of the response object
-</T> */
+ * @param <T> the type of the response object </T>
+ *
+ * @author Vlad Kornev
+ */
 sealed class ApiResponse<T> {
     companion object {
         fun <T> create(error: Throwable): ApiErrorResponse<T> {

@@ -11,14 +11,10 @@ import com.valdizz.cocktails.model.api.ApiResponse
 import com.valdizz.cocktails.model.api.ApiSuccessResponse
 
 /**
- * A generic class that can provide a resource backed by both the sqlite database and the network.
+ * A generic class that can provide a resource backed by both the database and the network.
  *
- *
- * You can read more about it in the [Architecture
- * Guide](https://developer.android.com/arch).
- * @param <ResultType>
- * @param <RequestType>
-</RequestType></ResultType> */
+ * @author Vlad Kornev
+ */
 abstract class NetworkBoundResource<ResultType, RequestType>
 @MainThread constructor(private val appExecutors: AppExecutors) {
 

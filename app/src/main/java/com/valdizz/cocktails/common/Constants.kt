@@ -1,5 +1,10 @@
 package com.valdizz.cocktails.common
 
+/**
+ * Application constants.
+ *
+ * @author Vlad Kornev
+ */
 object Constants {
 
     const val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"

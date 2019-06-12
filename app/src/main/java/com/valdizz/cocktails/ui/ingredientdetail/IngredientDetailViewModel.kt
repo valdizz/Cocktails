@@ -8,6 +8,11 @@ import com.valdizz.cocktails.model.entity.Ingredient
 import com.valdizz.cocktails.model.repository.ICocktailsRepository
 import com.valdizz.cocktails.model.repository.Resource
 
+/**
+ * ViewModel class implements the logic to manage ingredient details.
+ *
+ * @author Vlad Kornev
+ */
 class IngredientDetailViewModel(private val repository: ICocktailsRepository) : ViewModel() {
 
     private var ingredientName = MutableLiveData<String>()

@@ -10,8 +10,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
- * @param <R>
-</R> */
+ *
+ * @author Vlad Kornev
+ * */
 class LiveDataCallAdapter<R>(private val responseType: Type) :
     CallAdapter<R, LiveData<ApiResponse<R>>> {
 

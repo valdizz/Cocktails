@@ -10,6 +10,11 @@ import androidx.fragment.app.DialogFragment
 import com.valdizz.cocktails.R
 import com.valdizz.cocktails.common.Constants
 
+/**
+ * Dialog fragment to select the type of filtering cocktails.
+ *
+ * @author Vlad Kornev
+ */
 class TypeDialogFragment : DialogFragment() {
 
     companion object {

@@ -28,6 +28,11 @@ import com.valdizz.cocktails.ui.CocktailsActivity
 import kotlinx.android.synthetic.main.fragment_cocktail_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+/**
+ * [CocktailDetailFragment] displays detailed information about the cocktail.
+ *
+ * @author Vlad Kornev
+ */
 class CocktailDetailFragment : Fragment() {
 
     companion object {

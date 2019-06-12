@@ -11,6 +11,11 @@ import com.valdizz.cocktails.model.repository.ICocktailsRepository
 import com.valdizz.cocktails.model.repository.Resource
 import com.valdizz.cocktails.ui.CocktailsActivity
 
+/**
+ * ViewModel class implements the logic to manage a list of cocktails.
+ *
+ * @author Vlad Kornev
+ */
 class CocktailsViewModel(
     private val repository: ICocktailsRepository,
     private val connectionManager: NetworkConnectionManager

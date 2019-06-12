@@ -8,6 +8,11 @@ import com.valdizz.cocktails.model.entity.Cocktail
 import com.valdizz.cocktails.model.repository.ICocktailsRepository
 import com.valdizz.cocktails.model.repository.Resource
 
+/**
+ * ViewModel class implements the logic to manage cocktail details.
+ *
+ * @author Vlad Kornev
+ */
 class CocktailDetailViewModel(private val repository: ICocktailsRepository) : ViewModel() {
 
     private var cocktailId = MutableLiveData<Int>()

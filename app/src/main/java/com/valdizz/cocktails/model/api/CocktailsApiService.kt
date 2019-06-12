@@ -5,6 +5,11 @@ import com.valdizz.cocktails.model.entity.*
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * Retrofit interface for getting cocktails/ingredients from TheCocktailDB.com.
+ *
+ * @author Vlad Kornev
+ */
 interface CocktailsApiService {
 
     @GET("search.php")

@@ -3,6 +3,11 @@ package com.valdizz.cocktails.model.repository
 import androidx.lifecycle.LiveData
 import com.valdizz.cocktails.model.entity.*
 
+/**
+ * Repository interface.
+ *
+ * @author Vlad Kornev
+ */
 interface ICocktailsRepository {
 
     fun searchCocktailByName(name: String): LiveData<Resource<List<Cocktail>>>

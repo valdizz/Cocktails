@@ -4,6 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.valdizz.cocktails.model.entity.*
 
+/**
+ * Room database class.
+ *
+ * @author Vlad Kornev
+ */
 @Database(
     entities = [Cocktail::class, Ingredient::class],
     version = 1,

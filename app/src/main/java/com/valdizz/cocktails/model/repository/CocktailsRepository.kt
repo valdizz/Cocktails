@@ -12,6 +12,11 @@ import com.valdizz.cocktails.model.entity.Cocktails
 import com.valdizz.cocktails.model.entity.Ingredient
 import com.valdizz.cocktails.model.entity.Ingredients
 
+/**
+ * Repository implementation class.
+ *
+ * @author Vlad Kornev
+ */
 class CocktailsRepository(
     val appExecutors: AppExecutors,
     val cocktailsDao: CocktailsDao,

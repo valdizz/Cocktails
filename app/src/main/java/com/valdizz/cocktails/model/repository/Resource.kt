@@ -2,8 +2,9 @@ package com.valdizz.cocktails.model.repository
 
 /**
  * A generic class that holds a value with its loading status.
- * @param <T>
-</T> */
+ *
+ * @author Vlad Kornev
+ */
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {
         fun <T> success(data: T?): Resource<T> {

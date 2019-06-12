@@ -16,6 +16,11 @@ import com.valdizz.cocktails.model.entity.Ingredient
 import com.valdizz.cocktails.ui.ingredients.IngredientClickListener
 import kotlinx.android.synthetic.main.item_ingredient.view.*
 
+/**
+ * Adapter class for displaying ingredients in [RecyclerView].
+ *
+ * @author Vlad Kornev
+ */
 class IngredientsRecyclerViewAdapter(private val ingredientClickListener: IngredientClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

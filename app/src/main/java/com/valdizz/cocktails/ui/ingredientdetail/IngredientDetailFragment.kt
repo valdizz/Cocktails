@@ -23,6 +23,11 @@ import com.valdizz.cocktails.ui.cocktails.CocktailsFragment
 import kotlinx.android.synthetic.main.fragment_ingredient_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+/**
+ * [IngredientDetailFragment] displays detailed information about the ingredient.
+ *
+ * @author Vlad Kornev
+ */
 class IngredientDetailFragment : Fragment() {
 
     companion object {
