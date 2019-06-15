@@ -47,8 +47,8 @@ class CocktailsActivity : AppCompatActivity() {
     }
 
     private fun initConnectionObserver(connectionMessage: Snackbar) {
-        networkConnectionViewModel.getConnection().observe(this, Observer { isConnected ->
-            if (isConnected) {
+        networkConnectionViewModel.getConnection().observe(this, Observer {
+            if (it) {
                 connectionMessage.dismiss()
             } else {
                 connectionMessage.show()
@@ -56,8 +56,8 @@ class CocktailsActivity : AppCompatActivity() {
         })
     }
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
+        when (it.itemId) {
             R.id.navigation_cocktails -> {
                 loadFragment(CocktailsFragment.newInstance(null), FILTER_COCKTAILS_TAG)
                 return@OnNavigationItemSelectedListener true

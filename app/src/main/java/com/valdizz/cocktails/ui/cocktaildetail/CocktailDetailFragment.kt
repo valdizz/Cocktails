@@ -5,12 +5,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -70,16 +66,20 @@ class CocktailDetailFragment : Fragment() {
         }
 
         iv_cocktail_favorite.setOnClickListener {
-            cocktailDetailViewModel.setFavoriteCocktail(cocktailId)
-            Toast.makeText(
-                context,
-                if (iv_cocktail_favorite.tag == true) {
-                    getString(R.string.msg_removed_to_favorites)
-                } else {
-                    getString(R.string.msg_added_to_favorites)
-                }, Toast.LENGTH_SHORT
-            ).show()
+            onFavoriteClick()
         }
+    }
+
+    private fun onFavoriteClick() {
+        cocktailDetailViewModel.setFavoriteCocktail(cocktailId)
+        Toast.makeText(
+            context,
+            if (iv_cocktail_favorite.tag == true) {
+                getString(R.string.msg_removed_to_favorites)
+            } else {
+                getString(R.string.msg_added_to_favorites)
+            }, Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -89,10 +89,17 @@ class CocktailDetailFragment : Fragment() {
 
     private fun initCocktailObserver(id: Int) {
         cocktailDetailViewModel.loadCocktail(id)
-        cocktailDetailViewModel.cocktail.observe(viewLifecycleOwner, Observer { cocktail ->
-            progress_detail_cocktail.isVisible = cocktail.status == Status.LOADING
-            cocktail.data?.let {
-                showCocktail(it)
+        cocktailDetailViewModel.cocktail.observe(viewLifecycleOwner, Observer {
+            if (it.status == Status.LOADING) {
+                progress_detail_cocktail.visibility = ProgressBar.VISIBLE
+            } else {
+                progress_detail_cocktail.visibility = ProgressBar.GONE
+                it.data?.let { cocktail ->
+                    showCocktail(cocktail)
+                }
+                if (it.status == Status.ERROR) {
+                    Toast.makeText(context, getString(R.string.msg_network_request_failed), Toast.LENGTH_LONG).show()
+                }
             }
         })
     }

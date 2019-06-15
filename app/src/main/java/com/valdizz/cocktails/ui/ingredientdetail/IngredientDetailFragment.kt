@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -53,12 +55,19 @@ class IngredientDetailFragment : Fragment() {
 
     private fun initIngredientObserver(name: String) {
         ingredientDetailViewModel.loadIngredient(name)
-        ingredientDetailViewModel.ingredient.observe(viewLifecycleOwner, Observer { ingredient ->
-            progress_detail_ingredient.isVisible = ingredient.status == Status.LOADING
-            ingredient.data?.let {
-                val selectedIngredient = it[0]
-                showIngredient(selectedIngredient)
-                btn_show_cocktails.setOnClickListener { loadCocktailsByIngredient(selectedIngredient.ingredient) }
+        ingredientDetailViewModel.ingredient.observe(viewLifecycleOwner, Observer {
+            if (it.status == Status.LOADING) {
+                progress_detail_ingredient.visibility = ProgressBar.VISIBLE
+            } else {
+                progress_detail_ingredient.visibility = ProgressBar.GONE
+                it.data?.let { ingredients ->
+                    val selectedIngredient = ingredients[0]
+                    showIngredient(selectedIngredient)
+                    btn_show_cocktails.setOnClickListener { loadCocktailsByIngredient(selectedIngredient.ingredient) }
+                }
+                if (it.status == Status.ERROR) {
+                    Toast.makeText(context, getString(R.string.msg_network_request_failed), Toast.LENGTH_LONG).show()
+                }
             }
         })
     }
@@ -71,8 +80,14 @@ class IngredientDetailFragment : Fragment() {
             .transition(withCrossFade(drawableCrossFadeFactory))
             .into(iv_ingredient_detail)
         tv_ingredient_name.text = ingredient.ingredient
-        tv_ingredient_type.text = getString(R.string.type,
-            if (ingredient.type.isNullOrEmpty()) { getString(R.string.undefined) } else { ingredient.type })
+        tv_ingredient_type.text = getString(
+            R.string.type,
+            if (ingredient.type.isNullOrEmpty()) {
+                getString(R.string.undefined)
+            } else {
+                ingredient.type
+            }
+        )
         tv_ingredient_description.text = if (ingredient.description.isNullOrEmpty()) {
             getString(R.string.no_description)
         } else {
@@ -88,7 +103,9 @@ class IngredientDetailFragment : Fragment() {
         activity?.supportFragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         activity?.supportFragmentManager?.beginTransaction()
             ?.setCustomAnimations(R.animator.scalexy_enter, R.animator.scalexy_exit)
-            ?.replace(R.id.fragment_container, CocktailsFragment.newInstance(ingredientName),
-                COCKTAILS_BY_INGREDIENTS_TAG)?.commit()
+            ?.replace(
+                R.id.fragment_container, CocktailsFragment.newInstance(ingredientName),
+                COCKTAILS_BY_INGREDIENTS_TAG
+            )?.commit()
     }
 }

@@ -18,7 +18,6 @@ import com.valdizz.cocktails.ui.CocktailsActivity
 class CocktailsViewModel(private val repository: ICocktailsRepository) : ViewModel() {
 
     private var typeAndValue = MutableLiveData<Pair<String, String>>()
-    val isConnected = MutableLiveData<Boolean>()
 
     val cocktails: LiveData<Resource<List<Cocktail>>> = Transformations.switchMap(typeAndValue) { data ->
         val type = data.first

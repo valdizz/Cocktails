@@ -26,7 +26,7 @@ class IngredientsRecyclerViewAdapter(private val ingredientClickListener: Ingred
 
     var ingredients: List<Ingredient> = ArrayList()
         set(value) {
-            field = value
+            field = value.sortedBy { it.ingredient }
             notifyDataSetChanged()
         }
 

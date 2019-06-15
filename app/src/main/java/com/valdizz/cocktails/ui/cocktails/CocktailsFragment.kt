@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -76,7 +74,6 @@ class CocktailsFragment : Fragment() {
         val adapter = CocktailsRecyclerViewAdapter(cocktailClickListener)
         initRecyclerView(adapter)
         initCocktailsObserver(adapter)
-        initConnectionObserver()
 
         when (activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)?.tag) {
             FILTER_COCKTAILS_TAG -> {
@@ -102,18 +99,17 @@ class CocktailsFragment : Fragment() {
         rv_cocktails.adapter = adapter
     }
 
-    private fun initConnectionObserver() {
-        cocktailsViewModel.isConnected.observe(viewLifecycleOwner, Observer { isConnected ->
-            if (!isConnected) {
-                Toast.makeText(context, getString(R.string.msg_connection_unavailable), Toast.LENGTH_LONG).show()
-            }
-        })
-    }
-
     private fun initCocktailsObserver(adapter: CocktailsRecyclerViewAdapter) {
-        cocktailsViewModel.cocktails.observe(viewLifecycleOwner, Observer { cocktails ->
-            adapter.cocktails = cocktails.data ?: emptyList()
-            progress_cocktails.isVisible = cocktails.status == Status.LOADING
+        cocktailsViewModel.cocktails.observe(viewLifecycleOwner, Observer {
+            if (it.status == Status.LOADING) {
+                progress_cocktails.visibility = ProgressBar.VISIBLE
+            } else {
+                progress_cocktails.visibility = ProgressBar.GONE
+                adapter.cocktails = it.data ?: emptyList()
+                if (it.status == Status.ERROR) {
+                    Toast.makeText(context, getString(R.string.msg_network_request_failed), Toast.LENGTH_LONG).show()
+                }
+            }
         })
     }
 

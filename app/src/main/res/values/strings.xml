@@ -21,5 +21,6 @@
     <string name="no_description">No description</string>
     <string name="undefined">Undefined</string>
     <string name="msg_connection_unavailable">Connection is unavailable!</string>
+    <string name="msg_network_request_failed">Network request failed!</string>
     <string name="select_type">Select type:</string>
 </resources>
