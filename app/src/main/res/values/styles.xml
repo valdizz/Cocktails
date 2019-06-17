@@ -9,7 +9,6 @@
 
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
     </style>
 
     <style name="Divider">

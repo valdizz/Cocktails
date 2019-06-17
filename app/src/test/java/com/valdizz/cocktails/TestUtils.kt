@@ -15,7 +15,7 @@ fun Spec.emulateInstantTaskExecutorRule() {
     }
 }
 
-class SingleThreadTaskExecutor() : TaskExecutor() {
+class SingleThreadTaskExecutor : TaskExecutor() {
     override fun executeOnDiskIO(runnable: Runnable) {
         runnable.run()
     }

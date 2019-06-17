@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+            android:opacity="opaque">
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+    <item android:drawable="@color/colorBackground"/>
 
-    <item android:drawable="@color/colorPrimary"/>
-
-    <item>
-        <bitmap
-                android:src="@drawable/ic_cocktail_logo"
-                android:gravity="center"/>
-    </item>
-
+    <item
+            android:drawable="@drawable/ic_cocktail_logo"
+            android:gravity="center"/>
 </layer-list>
