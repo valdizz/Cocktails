@@ -15,4 +15,5 @@ object Constants {
     const val TYPE_ALCOHOLIC = "Alcoholic"
     const val TYPE_NON_ALCOHOLIC = "Non alcoholic"
     const val TYPE_OPTIONAL_ALCOHOL = "Optional alcohol"
+    const val INGREDIENTS_COUNT = 15
 }

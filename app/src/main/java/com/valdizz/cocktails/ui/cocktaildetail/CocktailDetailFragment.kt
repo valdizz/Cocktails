@@ -16,8 +16,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.valdizz.cocktails.R
+import com.valdizz.cocktails.common.ComponentUtils
 import com.valdizz.cocktails.common.Constants
-import com.valdizz.cocktails.common.toPx
+import com.valdizz.cocktails.common.Constants.INGREDIENTS_COUNT
 import com.valdizz.cocktails.model.entity.Cocktail
 import com.valdizz.cocktails.model.repository.Status
 import com.valdizz.cocktails.ui.CocktailsActivity
@@ -156,115 +157,39 @@ class CocktailDetailFragment : Fragment() {
     }
 
     private fun showIngredients(cocktail: Cocktail) {
-        if (!cocktail.ingredient1.isNullOrEmpty() && !cocktail.measure1.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient1, cocktail.measure1)
-        }
-        if (!cocktail.ingredient2.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient2, cocktail.measure2)
-        }
-        if (!cocktail.ingredient3.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient3, cocktail.measure3)
-        }
-        if (!cocktail.ingredient4.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient4, cocktail.measure4)
-        }
-        if (!cocktail.ingredient5.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient5, cocktail.measure5)
-        }
-        if (!cocktail.ingredient6.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient6, cocktail.measure6)
-        }
-        if (!cocktail.ingredient7.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient7, cocktail.measure7)
-        }
-        if (!cocktail.ingredient8.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient8, cocktail.measure8)
-        }
-        if (!cocktail.ingredient9.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient9, cocktail.measure9)
-        }
-        if (!cocktail.ingredient10.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient10, cocktail.measure10)
-        }
-        if (!cocktail.ingredient11.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient11, cocktail.measure11)
-        }
-        if (!cocktail.ingredient12.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient12, cocktail.measure12)
-        }
-        if (!cocktail.ingredient13.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient13, cocktail.measure13)
-        }
-        if (!cocktail.ingredient14.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient14, cocktail.measure14)
-        }
-        if (!cocktail.ingredient15.isNullOrEmpty()) {
-            createIngredientLine(ll_main, cocktail.ingredient15, cocktail.measure15)
+        for (i in 1..INGREDIENTS_COUNT) {
+            val ingredientField = Cocktail::class.java.getDeclaredField("ingredient$i")
+            ingredientField.isAccessible = true
+            val ingredient = ingredientField.get(cocktail)
+            val measureField = Cocktail::class.java.getDeclaredField("measure$i")
+            measureField.isAccessible = true
+            val measure = measureField.get(cocktail)
+            if (ingredient != null && measure != null) {
+                createIngredientLine(ll_main, ingredient as String, measure as String)
+            }
         }
     }
 
     private fun createIngredientLine(view: LinearLayout, ingredient: String?, measure: String?) {
-        val linearLayout = LinearLayout(view.context).apply {
-            tag = ingredient
-            orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                50.toPx()
-            ).apply {
-                setMargins(16.toPx(), 0, 16.toPx(), 0)
-            }
-        }
+        if (view.findViewWithTag<LinearLayout>(ingredient) == null && !ingredient.isNullOrEmpty()) {
+            val linearLayout = ComponentUtils.createLinearLayout(view, ingredient, 16, 50)
+            val imageViewIngredient = ComponentUtils.createImageView(view, 40, 40)
+            val textViewIngredient = ComponentUtils.createTextView(view, ingredient, 7f, Gravity.NO_GRAVITY, 16)
+            val textViewMeasure = ComponentUtils.createTextView(view, measure, 1f, Gravity.END, 0)
+            val divider = ComponentUtils.createDivider(view, 16)
 
-        val imageViewIngredient = ImageView(view.context).apply {
-            layoutParams = LinearLayout.LayoutParams(40.toPx(), 40.toPx()).apply {
-                gravity = Gravity.CENTER_VERTICAL
-            }
-        }
+            Glide
+                .with(view.context)
+                .load(Constants.INGREDIENT_IMAGE_URL + ingredient + Constants.INGREDIENT_IMAGE_EXT)
+                .placeholder(R.drawable.ic_ingredient)
+                .transition(withCrossFade(drawableCrossFadeFactory))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageViewIngredient)
 
-        val textViewIngredient = TextView(view.context).apply {
-            text = ingredient
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                7f
-            ).apply {
-                gravity = Gravity.CENTER_VERTICAL
-            }
-            setPadding(16.toPx(), 0, 16.toPx(), 0)
-        }
-
-        val textViewMeasure = TextView(view.context).apply {
-            text = measure
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f
-            ).apply {
-                gravity = Gravity.CENTER_VERTICAL
-            }
-            gravity = Gravity.END
-        }
-
-        val divider = View(view.context).apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1.toPx()).apply {
-                setMargins(16.toPx(), 0, 16.toPx(), 0)
-            }
-            background = resources.getDrawable(android.R.color.darker_gray, view.context.theme)
-        }
-
-        Glide
-            .with(view.context)
-            .load(Constants.INGREDIENT_IMAGE_URL + ingredient + Constants.INGREDIENT_IMAGE_EXT)
-            .placeholder(R.drawable.ic_ingredient)
-            .transition(withCrossFade(drawableCrossFadeFactory))
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .apply(RequestOptions.circleCropTransform())
-            .into(imageViewIngredient)
-
-        linearLayout.addView(imageViewIngredient)
-        linearLayout.addView(textViewIngredient)
-        linearLayout.addView(textViewMeasure)
-        if (view.findViewWithTag<LinearLayout>(ingredient) == null) {
+            linearLayout.addView(imageViewIngredient)
+            linearLayout.addView(textViewIngredient)
+            linearLayout.addView(textViewMeasure)
             view.addView(linearLayout)
             view.addView(divider)
         }
